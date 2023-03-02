@@ -1,3 +1,12 @@
+const Part = (props) => {
+  console.log(props)
+  return (
+      <p>
+        {props.part_name} {props.part_exs}
+      </p>
+  )
+}
+
 const Header = (props) => {
   console.log(props)
   return (
@@ -7,19 +16,12 @@ const Header = (props) => {
 
 const Content = (props) => {
   console.log(props)
+  
   return (
     <div>
-    <p>
-      {props.part1} {props.exercises1}
-    </p>
-
-    <p>
-      {props.part2} {props.exercises2}
-    </p>
-
-    <p>
-      {props.part3} {props.exercises3}
-    </p>
+      <Part part_name={props.part1_name} part_exs={props.part1_exs}/>
+      <Part part_name={props.part2_name} part_exs={props.part2_exs}/>
+      <Part part_name={props.part3_name} part_exs={props.part3_exs}/>
     </div>
   )
 }
@@ -42,12 +44,10 @@ const App = () => {
   const part3 = 'State of a component'
   const exercises3 = 14
 
-
-
   return (
     <div>
       <Header course={course} />
-      <Content part1={part1} exercises1={exercises1} part2={part2} exercises2={exercises2} part3={part3} exercises3={exercises3} />
+      <Content part1_name={part1} part1_exs={exercises1} part2_name={part2} part2_exs={exercises2} part3_name={part3} part3_exs={exercises3} />
       <Total exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
     </div>
   )
