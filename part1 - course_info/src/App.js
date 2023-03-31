@@ -9,17 +9,27 @@ const Button = (props) => (
 )
 
   /*USE STATISTICS COMPONENT OUTSIDE OF MAIN APP FOR DISPLAYING: ALL, AVERAGE, & POSITIVE PERCENT*/
-const Statistics = (props) => (
-  <div>
-    <h1>Statistics</h1>
-    <Display text="good" value={props.good} />
-    <Display text="neutral" value={props.neutral} />
-    <Display text="bad" value={props.bad}/>
-    <Display text="all" value={props.all} />
-    <Display text="average" value={props.average} />
-    <Display text="positive" value={props.positive}/>
-  </div>
-)
+const Statistics = (props) => {
+  
+  if (props.all === 0){
+    return (
+      <div>
+      <h1> Statistics </h1>
+      <p> No Feedback Given </p>
+      </div>
+    )
+  }
+  return ( 
+    <div>
+      <Display text="good" value={props.good} />
+      <Display text="neutral" value={props.neutral} />
+      <Display text="bad" value={props.bad}/>
+      <Display text="all" value={props.all} />
+      <Display text="average" value={props.average} />
+      <Display text="positive" value={props.positive}/>
+    </div>
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
