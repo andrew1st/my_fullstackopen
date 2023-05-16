@@ -18,7 +18,18 @@ const VoteButton = (props) => {
 
 const AnecdoteText = (props) => {
   return (
+    
     <p>has {props.numVotes} votes</p>
+  )
+}
+
+const MostVotesPanel = (props) => {
+  return (
+    <div>
+    <h1>Anecdote with Most Votes</h1>
+    <p>{props.MostVotesAnecText}</p>
+    <p>has {props.maxVotes} votes</p>
+    </div>
   )
 }
 
@@ -35,32 +46,33 @@ const App = () => {
   ]
   const n = anecdotes.length
 
-  // let initialVotes = Array(n).fill(0)
-  // const [vselected, vsetSelected] = useState(initialVotes)
   const [allVotes, setAllVotes] = useState([])
-
   const [votesdisplay, setVotesDisplay] = useState(0)
   const [selected, setSelected] = useState(0)
+
+  // state variables for storing max votes data:
+  // -) index/anecdote of item with most votes
+  // -) number of votes for anecdote
+  const [maxvotes_idx, setMaxVotes_Idx] = useState(0)
+  const [maxvotesnum, setMaxVotesNum] = useState(0)
 
   const randomIdx = rdmIn => {
     const new_i = Math.floor(Math.random() * rdmIn)
     setSelected(new_i)
     console.log("new_i: " + new_i)
 
+    //COUNT HOW MANY VOTES WITHIN allVotes for new_i value
     let tmpVotesNum = 0
     let i = 0
     for(i=0; i < allVotes.length; i++){
       if (allVotes[i] === new_i){
       tmpVotesNum += 1  
-      // console.log("NEW I:" + new_i + " | vote found (index allVotes)- " + i)
       }
     }
-    // console.log("final tmpvotesnum: " + tmpVotesNum)
     setVotesDisplay(tmpVotesNum)
   }
 
   const voteAnec = idxIn => {
-    // TODO!! Need to figure out how to handle state of votes array(?)
     let allVotesCopy = [...allVotes]
     allVotesCopy.push(idxIn)
     setAllVotes(
@@ -69,16 +81,24 @@ const App = () => {
     console.log("allVotesCopy: " + allVotesCopy)
     setVotesDisplay(votesdisplay + 1)
 
-    // TODO!! initialVotes and/or vselected needs to be set properly...
+    let maxVotesNum_tmp = votesdisplay + 1
+    // SET MAX VOTES
+    if (votesdisplay + 1 >= maxvotesnum){
+      
+      setMaxVotes_Idx(idxIn)
+      setMaxVotesNum(maxVotesNum_tmp)
+    }
   }
 
   return (
     <div>
+      <h1>Anecdote of the Day</h1>
       {anecdotes[selected]}
       <br />
       <AnecdoteText numVotes={votesdisplay}/>
       <VoteButton voteAnecdote={() => voteAnec(selected)} text="vote"/>
       <NewButton newAnecdote={() =>  randomIdx(n)} text="next anecdote" />
+      <MostVotesPanel MostVotesAnecText={anecdotes[maxvotes_idx]} maxVotes={maxvotesnum} />
     </div>
   )
 }
