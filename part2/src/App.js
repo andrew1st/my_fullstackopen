@@ -1,14 +1,17 @@
 const Course = (props) => {
   console.log(props)
-  const { name, parts } = props
+  const { id, name, parts } = props.course
+  console.log("COURSE id: " + id)
+  console.log("COURSE name: " + name)
+  console.log("COURSE parts: " + parts)
 
 
   return (
     <div>
       <h1>{name}</h1>
       <div>
-        {parts.map(part =>
-          <p key={part.id}>{part.name}</p>
+        {parts?.map(part =>
+          <p key={part.id}>{part.name} {part.exercises}</p>
         )}
       </div>
     </div>   
@@ -17,6 +20,7 @@ const Course = (props) => {
 
 const App = () => {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
