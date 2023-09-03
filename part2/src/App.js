@@ -4,8 +4,9 @@ const Course = (props) => {
   console.log("COURSE id: " + id)
   console.log("COURSE name: " + name)
   console.log("COURSE parts: " + parts)
+  let sum = 0;
 
-
+  parts?.map(part => sum += part.exercises);
   return (
     <div>
       <h1>{name}</h1>
@@ -13,6 +14,9 @@ const Course = (props) => {
         {parts?.map(part =>
           <p key={part.id}>{part.name} {part.exercises}</p>
         )}
+      </div>
+      <div>
+        Total of {sum} exercises
       </div>
     </div>   
   )
