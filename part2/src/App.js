@@ -3,10 +3,13 @@ const Course = (props) => {
   const { id, name, parts } = props.course
   console.log("COURSE id: " + id)
   console.log("COURSE name: " + name)
-  console.log("COURSE parts: " + parts)
-  let sum = 0;
+  console.log("COURSE parts array: " + parts)
 
-  parts?.map(part => sum += part.exercises);
+  const sum = parts?.reduce(
+    (sum, p) => sum + p.exercises,
+    0,
+  );
+  console.log(sum)
   return (
     <div>
       <h1>{name}</h1>
