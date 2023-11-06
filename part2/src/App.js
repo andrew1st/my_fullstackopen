@@ -1,9 +1,9 @@
-const Course = (props) => {
-  console.log("Course props" + props)
+const CourseParts = (props) => {
+  console.log("CourseParts props" , props)
   const { id, name, parts } = props.course
-  console.log("COURSE id: " + id)
-  console.log("COURSE name: " + name)
-  console.log("COURSE parts array: " + parts)
+  console.log("PARTS id: " , id)
+  console.log("PARTS name: " , name)
+  console.log("EX. num: " , parts)
 
   const sum = parts?.reduce(
     (sum, p) => sum + p.exercises,
@@ -13,31 +13,24 @@ const Course = (props) => {
   return (
     <div>
       <h2>{name}</h2>
-      <div>
-        {parts?.map(part =>
-          <p key={part.id}>{part.name} {part.exercises}</p>
-        )}
-      </div>
-      <div>
-        Total of {sum} exercises
-      </div>
+      {parts?.map(part =>
+        <p key={part.id}>{part.name} {part.exercises}</p>
+      )}
+      <b>Total of {sum} exercises</b>
     </div>   
   )
 }
 
 const Courses = (props) => {
-  console.log("Courses props" + props)
-  const { id, name, courses } = props.courses
+  console.log("Courses props" , props)
+  const { courses } = props
   
   return ( 
     <div>
-      <h1>{name}</h1>
-      <div>
-        {courses?.map(course => 
-          <p key={course.id}> {course.name}  </p>
-          )} 
-        <Course course={course} />
-      </div>
+      {courses?.map(course =>
+        <CourseParts key={course.id} course={course}/>
+      )}
+    </div>
   )
 }
 
@@ -88,7 +81,8 @@ const App = () => {
   ]
   return (
     <div>
-      return <Courses courses={courses} />
+      <h1>Web Development Curriculum</h1>
+      <Courses courses={courses} />
     </div>
   )
 }
