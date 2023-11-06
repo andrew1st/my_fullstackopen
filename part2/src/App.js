@@ -9,12 +9,24 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     console.log("addPerson:")
-    const personObject = {
-      name: newName,
-      id: addPerson.name
+    let addPersonBool = true
+    persons.forEach(p => {
+      if (JSON.stringify(p.name) == JSON.stringify(newName)){
+        addPersonBool = false
+      }
+    });
+    if (addPersonBool){
+      const personObject = {
+        name: newName,
+        id: addPerson.name
+      }
+      setPersons(persons.concat(personObject))
+      setNewName('')
     }
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    else {
+      const alert_str = `${newName} is already added to the PhoneBook.`
+      window.alert(alert_str)
+    }
   }
   
   const handlePersonChange = (event) => {
