@@ -1,54 +1,45 @@
-import Courses  from "./components/Course"
+import { useState } from 'react'
 
-const App = ({ course }) => {
-  const courses = [
-    {
-      name: 'Half Stack application development',
-      id: 1,
-      parts: [
-        {
-          name: 'Fundamentals of React',
-          exercises: 10,
-          id: 1
-        },
-        {
-          name: 'Using props to pass data',
-          exercises: 7,
-          id: 2
-        },
-        {
-          name: 'State of a component',
-          exercises: 14,
-          id: 3
-        },
-        {
-          name: 'Redux',
-          exercises: 11,
-          id: 4
-        }
-      ]
-    }, 
-    {
-      name: 'Node.js',
-      id: 2,
-      parts: [
-        {
-          name: 'Routing',
-          exercises: 3,
-          id: 1
-        },
-        {
-          name: 'Middlewares',
-          exercises: 7,
-          id: 2
-        }
-      ]
+const App = () => {
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas' }
+  ]) 
+  const [newName, setNewName] = useState('')
+
+  const addPerson = (event) => {
+    event.preventDefault()
+    console.log("addPerson:")
+    const personObject = {
+      name: newName,
+      id: addPerson.name
     }
-  ]
+    setPersons(persons.concat(personObject))
+    setNewName('')
+  }
+  
+  const handlePersonChange = (event) => {
+    console.log("handlePersonChange")
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+
   return (
     <div>
-      <h1>Web Development Curriculum</h1>
-      <Courses courses={courses} />
+      <h2>Phonebook</h2>
+      <form onSubmit={addPerson}>
+        <div>
+          name: <input value={newName} onChange={handlePersonChange}/>
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      <div>
+        {persons?.map(person =>
+          <p key={person.name}>{person.name}</p>  
+        )}
+      </div>
     </div>
   )
 }
