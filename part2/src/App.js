@@ -6,6 +6,8 @@ import Filter from "./components/Filter"
 import Persons from "./components/Person"
 import PersonForm from "./components/PersonForm" 
 
+import personService from "./services/persons"
+
 const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -14,13 +16,10 @@ const App = () => {
   const [persons, setPersons] = useState([])
   // load data from db.json file
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    personService.getAll()
+    .then(response => {
+      setPersons(response.data)
+    })
   }, [])
 
   const handleFilterChange = (event) => {
@@ -39,12 +38,6 @@ const App = () => {
   }
 
   const handleAddPerson = (event) => {
-    //TODO -> update event handler with axios post
-    //axios
-    //.post('http://localhost:3001/notes', noteObject)
-    //.then(response => {
-      //console.log(response)
-    //})
     event.preventDefault()
     console.log("handleAddPerson:")
 
@@ -60,15 +53,14 @@ const App = () => {
               number: newNumber,
               id: newName
             }
-          axios
-            .post('http://localhost:3001/persons', noteObject)
+          personService
+            .create(personObject)
             .then(response => {
               console.log(response)
-              setPersons(persons.concat(personObject))
+              setPersons(persons.concat(response.data)) 
               setNewName('')
-              setNewNumber('')
-          })
-            
+              setNewNumber('') 
+            })    
         }
         else {
           const alert_str = `${newName} is already added to the PhoneBook.`
