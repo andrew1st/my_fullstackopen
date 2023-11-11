@@ -39,6 +39,12 @@ const App = () => {
   }
 
   const handleAddPerson = (event) => {
+    //TODO -> update event handler with axios post
+    //axios
+    //.post('http://localhost:3001/notes', noteObject)
+    //.then(response => {
+      //console.log(response)
+    //})
     event.preventDefault()
     console.log("handleAddPerson:")
 
@@ -54,9 +60,15 @@ const App = () => {
               number: newNumber,
               id: newName
             }
-            setPersons(persons.concat(personObject))
-            setNewName('')
-            setNewNumber('')
+          axios
+            .post('http://localhost:3001/persons', noteObject)
+            .then(response => {
+              console.log(response)
+              setPersons(persons.concat(personObject))
+              setNewName('')
+              setNewNumber('')
+          })
+            
         }
         else {
           const alert_str = `${newName} is already added to the PhoneBook.`
