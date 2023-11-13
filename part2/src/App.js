@@ -63,11 +63,38 @@ const App = () => {
             })    
         }
         else {
-          const alert_str = `${newName} is already added to the PhoneBook.`
-          window.alert(alert_str)
+          if (window.confirm(`${newName} is already added to the PhoneBook, replace the old number with the new one?`)) {
+            //personService
+            console.log("yes on confirm")
+          }
+          else {
+            window.alert(`${newName} was NOT added to the PhoneBook`)
+          }
+          
         }
     }
   
+  // ex. 2.14 | deletePerson functionality
+  const handleDeletePerson = (id) => {
+    if (window.confirm(`Do you really want to delete "${id}"?`)) {
+    personService
+      .ax_delete(id)
+      .then(response => {
+        console.log(`Deleted person with id: ${id}`)
+        //remove person from persons array | array.filter()
+        const newPersons = persons.filter((person) => person.id !== id)
+        console.log("newPersons: " + newPersons)
+        setPersons(newPersons)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+    }
+  }
+  
+  // TODO -> ex. 2.15 | PUT request functionality
+  // update person(s) phone # if same name is entered with new phone # value
+  // NOTE: use array.find()
 
   return (
     <div>
@@ -81,7 +108,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons newFilter={newFilter} persons={persons}/>
+      <Persons newFilter={newFilter} persons={persons} handleDeletePerson={handleDeletePerson}/>
     </div>
   )
 }
