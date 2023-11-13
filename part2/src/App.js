@@ -63,9 +63,26 @@ const App = () => {
             })    
         }
         else {
+          // ex. 2.15 | update person with HTTP PUT 
           if (window.confirm(`${newName} is already added to the PhoneBook, replace the old number with the new one?`)) {
-            //personService
-            console.log("yes on confirm")
+            const personObject = {
+              name: newName,
+              number: newNumber,
+              id: newName
+            }
+            const person_obj = persons.find(p => p.id === newName)
+            const changedPerson = { ...person_obj, number: newNumber }
+            personService
+              .update(newName, personObject)
+              .then(response => {
+                console.log(`person updated with PUT | id: ${newName}`)
+                setNewName('')
+                setNewNumber('')
+                setPersons(persons.map(person => person.id !== newName ? person : response.data))
+              })
+              .catch(error => {
+                console.error(`ERROR`)
+              })
           }
           else {
             window.alert(`${newName} was NOT added to the PhoneBook`)
@@ -91,10 +108,6 @@ const App = () => {
       })
     }
   }
-  
-  // TODO -> ex. 2.15 | PUT request functionality
-  // update person(s) phone # if same name is entered with new phone # value
-  // NOTE: use array.find()
 
   return (
     <div>
