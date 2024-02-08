@@ -12,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState('')
 
   const [persons, setPersons] = useState([])
   // load data from db.json file
@@ -32,6 +33,7 @@ const App = () => {
     setNewNumber(event.target.value)
 }
 
+  // TODO! --> ex. 2.16 improved message/notification - person changed success
   const handlePersonChange = (event) => {
       console.log("handlePersonChange" + event.target.value)
       setNewName(event.target.value)
@@ -42,8 +44,8 @@ const App = () => {
     console.log("handleAddPerson:")
 
     let addPersonBool = true
-    persons.forEach(p => {
-        if (JSON.stringify(p.name) === JSON.stringify(newName)){
+    persons.forEach(p => { // forEach loop checks if name already exists in the phonebook, sets boolean accordingly
+        if (JSON.stringify(p.name) === JSON.stringify(newName)){  
             addPersonBool = false
           }
         });
@@ -63,7 +65,6 @@ const App = () => {
             })    
         }
         else {
-          // ex. 2.15 | update person with HTTP PUT 
           if (window.confirm(`${newName} is already added to the PhoneBook, replace the old number with the new one?`)) {
             const personObject = {
               name: newName,
@@ -79,7 +80,7 @@ const App = () => {
                 setNewName('')
                 setNewNumber('')
                 setPersons(persons.map(person => person.id !== newName ? person : response.data))
-              })
+                setNotificationMessage(`Added ${newName}`)})  //ex. 2.16 improved message/notification - person added
               .catch(error => {
                 console.error(`ERROR`)
               })
@@ -92,14 +93,14 @@ const App = () => {
     }
   
   // ex. 2.14 | deletePerson functionality
+  // ex. 2.16 | deletePerson Notification
   const handleDeletePerson = (id) => {
     if (window.confirm(`Do you really want to delete "${id}"?`)) {
     personService
       .ax_delete(id)
       .then(response => {
         console.log(`Deleted person with id: ${id}`)
-        //remove person from persons array | array.filter()
-        const newPersons = persons.filter((person) => person.id !== id)
+        const newPersons = persons.filter((person) => person.id !== id) //array.filter() - remove person from persons array
         console.log("newPersons: " + newPersons)
         setPersons(newPersons)
       })
@@ -112,6 +113,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+
+      <Notification notificationMessage={notificationMessage}/>
 
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange}/>
 
