@@ -2,7 +2,7 @@
 Hello, this repository is primarly used to learn the basics and intracices of JavaScript full-stack web development. 
 
 ## Learning/Tutorials can be found at: https://fullstackopen.com/en/
-- Course Contents(https://fullstackopen.com/en/#course-contents)
+- [Course Contents] (https://fullstackopen.com/en/#course-contents)
   - Part 0: Fundamentals of Web apps
   - Part 1: Introduction to React
   - Part 2: Communicating with server
